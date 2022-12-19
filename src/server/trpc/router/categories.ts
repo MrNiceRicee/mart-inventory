@@ -53,4 +53,29 @@ export const categoryRouter = router({
         data: categoryInput,
       });
     }),
+
+  /* updateCategory: publicProcedure
+		.input(categorySchema)
+		.mutation(async ({ input, ctx }) => {
+			//When updating the category, the process is:
+			//1. Find category. If no category is found - throw an error
+			//2.
+			const category = await ctx.prisma.category.findFirstOrThrow({
+				where: { id: input.id },
+			});
+
+			if (!category) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "No category with that id was found",
+				});
+			}
+
+			return await ctx.prisma.category.update({
+				where: {
+					id: input.id,
+				},
+				data: input,
+			});
+		}), */
 });
