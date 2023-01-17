@@ -1,59 +1,57 @@
+import { Category } from "@prisma/client";
 import { type NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
-
-import { trpc } from "../utils/trpc";
 import { useEffect, useState } from "react";
-import { Autocomplete } from "../components/Autocomplete";
-import { type Category } from "@prisma/client";
-import { useForm } from "react-hook-form";
+// import { signIn, signOut, useSession } from "next-auth/react";
+
+import { FormProvider, useForm } from "react-hook-form";
+import FormCombobox from "../components/form-components/Combobox";
+import FormTextInput from "../components/form-components/TextInput";
+import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const { data: categoriesData, isLoading: categoriesLoading } =
-    trpc.category.getAll.useQuery({
-      text: "askldfsalkdfhasdklfakshdfsadf",
-    });
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => console.log(data);
-
-  const [localCategories, setLocalCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<
-    Category | undefined
-  >();
-
-  useEffect(() => {
-    if (!categoriesLoading && categoriesData) {
-      setLocalCategories(categoriesData);
-    }
-  }, [categoriesLoading, categoriesData]);
-
-  const handleCategoryChange = (value: Category) => {
-    setSelectedCategory(value);
+  const methods = useForm();
+  const mutation = trpc.category.createCategory.useMutation();
+  const onSubmit = async (data: any) => {
+    mutation.mutate(data);
+    methods.reset();
   };
 
-  return categoriesLoading ? (
-    <div>Loading...</div>
-  ) : (
+  const { data: categoriesData } = trpc.category.getAll.useQuery();
+
+  const handleParentChange = ({ id }: Category) => {
+    methods.setValue("parentId", id);
+  };
+
+  return (
     <div className="h-screen bg-gray-700">
-      <div className="flex items-center justify-center p-12">
-        <div className="fixed top-16 w-72">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Autocomplete
-              options={localCategories}
-              {...register("category")}
-              name="category"
-              selected={selectedCategory}
-              label="Category"
-              onChange={handleCategoryChange}
-            />
-            <input type="submit" />
+      <div className="flex flex-col items-center justify-center p-12">
+        <h3 className="my-4 text-center text-white">Create new category</h3>
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <div className="my-4">
+              <FormTextInput
+                placeholder="Category name"
+                name="name"
+                type="text"
+              />
+            </div>
+            <div className="my-4">
+              <FormCombobox<Category>
+                name="parentId"
+                label="Parent category"
+                options={categoriesData || []}
+                onChange={handleParentChange}
+              />
+            </div>
+            <button
+              className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+              type="submit"
+              disabled={mutation.isLoading}
+            >
+              Submit
+            </button>
           </form>
-        </div>
+        </FormProvider>
       </div>
     </div>
   );

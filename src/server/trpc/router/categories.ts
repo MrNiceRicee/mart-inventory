@@ -6,11 +6,13 @@ import { categorySchema } from "../../../schemas/category.schema";
 import { type Prisma } from "@prisma/client";
 
 export const categoryRouter = router({
-  getAll: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ ctx }) => {
-      return ctx.prisma.category.findMany();
-    }),
+  getAll: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.category.findMany({
+      include: {
+        parent: true,
+      },
+    });
+  }),
   getCategory: publicProcedure
     .input(z.object({ categoryId: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -40,7 +42,7 @@ export const categoryRouter = router({
 
       if (input.parentId) {
         categoryInput = {
-          ...input,
+          name: input.name,
           parent: {
             connect: {
               id: input.parentId,
