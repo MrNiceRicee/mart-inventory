@@ -1,4 +1,4 @@
-import { publicProcedure, router } from "../trpc";
+import { publicProcedure, protectedProcedure, router } from "../trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { categorySchema } from "../../../schemas/category.schema";
@@ -6,7 +6,7 @@ import { categorySchema } from "../../../schemas/category.schema";
 import { type Prisma } from "@prisma/client";
 
 export const categoryRouter = router({
-  getAll: publicProcedure.query(({ ctx }) => {
+  getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.category.findMany({
       include: {
         parent: true,

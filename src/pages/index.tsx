@@ -1,7 +1,6 @@
 import { Category } from "@prisma/client";
 import { type NextPage } from "next";
-import { useEffect, useState } from "react";
-// import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 import { FormProvider, useForm } from "react-hook-form";
 import FormCombobox from "../components/form-components/Combobox";
@@ -9,6 +8,24 @@ import FormTextInput from "../components/form-components/TextInput";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
+  const { data: session } = useSession();
+
+  const handleUserAuth = async () => {
+    if (!session) {
+      try {
+        await signIn("google");
+      } catch (error) {
+        console.log("sign in error: ", error);
+      }
+    } else {
+      try {
+        await signOut();
+      } catch (error) {
+        console.log("sign out error: ", error);
+      }
+    }
+  };
+
   const methods = useForm();
   const mutation = trpc.category.createCategory.useMutation();
   const onSubmit = async (data: any) => {
@@ -24,6 +41,20 @@ const Home: NextPage = () => {
 
   return (
     <div className="h-screen bg-gray-700">
+      <div
+        id="user-authentication"
+        className="mr-8 flex items-center justify-end pt-4"
+      >
+        {session && (
+          <p className="pr-8 text-xl">Welcome, {session?.user?.name}</p>
+        )}
+        <button
+          onClick={handleUserAuth}
+          className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+        >
+          {session ? "Sign out" : "Sign in"}
+        </button>
+      </div>
       <div className="flex flex-col items-center justify-center p-12">
         <h3 className="my-4 text-center text-white">Create new category</h3>
         <FormProvider {...methods}>
