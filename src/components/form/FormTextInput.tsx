@@ -1,7 +1,7 @@
 import { ComponentProps, forwardRef } from "react";
-import FormField, { FormFieldProps, useFormField } from "./FormField";
+import FormField, { useFormField, UseFormFieldProps } from "./FormField";
 
-type FormTextInputProps = {} & FormFieldProps & ComponentProps<"input">;
+type FormTextInputProps = {} & UseFormFieldProps & ComponentProps<"input">;
 
 const FormTextInput = forwardRef<HTMLInputElement, FormTextInputProps>(
   (props, ref) => {

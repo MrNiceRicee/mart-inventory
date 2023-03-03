@@ -4,9 +4,9 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 import { categorySchema } from "../schemas/category.schema";
 import { useZodForm } from "../utils/useZodFormProps";
-import Input from "../components/Input";
-import GenericForm from "../components/GenericForm";
-import SubmitButton from "../components/SubmitButton";
+import GenericForm from "../components/form/GenericForm";
+import FormTextInput from "../components/form/FormTextInput";
+import SubmitButton from "../components/form/SubmitButton";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -59,7 +59,7 @@ const Home: NextPage = () => {
             console.log(data);
           }}
         >
-          <Input
+          <FormTextInput
             type="text"
             label="Category name:"
             required
