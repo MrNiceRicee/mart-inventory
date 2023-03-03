@@ -29,6 +29,7 @@ const Home: NextPage = () => {
 
   const form = useZodForm({
     schema: categorySchema,
+    criteriaMode: "all",
   });
 
   // const mutation = trpc.category.createCategory.useMutation();
@@ -59,13 +60,10 @@ const Home: NextPage = () => {
             console.log(data);
           }}
         >
-          <FormTextInput
-            type="text"
-            label="Category name:"
-            required
-            {...form.register("name")}
-          />
-          <SubmitButton>Submit</SubmitButton>
+          <FormTextInput label="Category name" isRequired name="name" />
+          <SubmitButton className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 disabled:bg-gray-500">
+            Submit
+          </SubmitButton>
         </GenericForm>
       </div>
     </div>

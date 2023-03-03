@@ -1,14 +1,27 @@
 import { ComponentProps, forwardRef } from "react";
+import { useFormContext } from "react-hook-form";
 import FormField, { useFormField, UseFormFieldProps } from "./FormField";
 
-type FormTextInputProps = {} & UseFormFieldProps & ComponentProps<"input">;
+type FormTextInputProps = {
+  isRequired?: boolean;
+} & UseFormFieldProps &
+  Omit<ComponentProps<"input">, "required">;
 
 const FormTextInput = forwardRef<HTMLInputElement, FormTextInputProps>(
-  (props, ref) => {
+  ({ isRequired, ...props }, ref) => {
     const { formFieldProps, childProps } = useFormField(props);
+    const { register } = useFormContext();
     return (
       <FormField {...formFieldProps}>
-        <input {...childProps} ref={ref} />
+        <input
+          type="text"
+          className={`rounded-md`}
+          {...register(props.name, {
+            required: isRequired && "This field is required",
+          })}
+          {...childProps}
+          ref={ref}
+        />
       </FormField>
     );
   }

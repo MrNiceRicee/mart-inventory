@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import { useFormContext } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
 export type UseFormFieldProps = {
   name: string;
@@ -26,9 +27,22 @@ const FormField = ({ children, name, label }: FormFieldProps) => {
 
   return (
     <div>
-      <label htmlFor={name}>{label}</label>
+      <label className="mr-3" htmlFor={name}>
+        {label}
+      </label>
       {children}
-      {state.error && <p>{state.error.message}</p>}
+      {state.error && (
+        <ErrorMessage
+          errors={state.error}
+          name={name}
+          render={({ messages }) =>
+            messages &&
+            Object.entries(messages).map(([type, message]) => (
+              <p key={type}>{message}</p>
+            ))
+          }
+        />
+      )}
     </div>
   );
 };
