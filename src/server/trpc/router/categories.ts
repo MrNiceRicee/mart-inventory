@@ -4,9 +4,10 @@ import { TRPCError } from "@trpc/server";
 import { categorySchema } from "../../../schemas/category.schema";
 
 export const categoryRouter = router({
-  getAll: protectedProcedure.query(({ ctx }) => {
+  getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.category.findMany();
   }),
+
   getCategory: publicProcedure
     .input(z.object({ categoryId: z.string() }))
     .query(async ({ input, ctx }) => {

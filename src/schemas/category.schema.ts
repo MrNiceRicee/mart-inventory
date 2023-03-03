@@ -7,6 +7,8 @@ export const categorySchema = z.object({
   }),
 });
 
+export type CategorySchemaType = z.infer<typeof categorySchema>;
+
 export const INIT_CATEGORY = {
   name: "",
 };
