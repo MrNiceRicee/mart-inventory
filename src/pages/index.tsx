@@ -2,10 +2,10 @@ import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { trpc } from "../utils/trpc";
-import { categorySchema } from "../schemas/category.schema";
-import { useZodForm } from "../utils/useZodFormProps";
-import GenericForm from "../components/form/GenericForm";
+import { Formik } from "formik";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 import FormTextInput from "../components/form/FormTextInput";
+import { categorySchema, INIT_CATEGORY } from "../schemas/category.schema";
 import SubmitButton from "../components/form/SubmitButton";
 
 const Home: NextPage = () => {
@@ -27,15 +27,6 @@ const Home: NextPage = () => {
     }
   };
 
-  const form = useZodForm({
-    schema: categorySchema,
-    criteriaMode: "all",
-  });
-
-  // const mutation = trpc.category.createCategory.useMutation();
-
-  // const { data: categoriesData } = trpc.category.getAll.useQuery();
-
   return (
     <div className="h-screen bg-gray-700">
       <div
@@ -53,18 +44,26 @@ const Home: NextPage = () => {
         </button>
       </div>
       <div className="flex flex-col items-center justify-center p-12">
-        <h3 className="my-4 text-center text-white">Create new category</h3>
-        <GenericForm
-          form={form}
+        <h3 className="my-4 text-center text-white">Добави нова категория</h3>
+        <Formik
+          initialValues={INIT_CATEGORY}
+          validationSchema={toFormikValidationSchema(categorySchema)}
           onSubmit={(data) => {
             console.log(data);
           }}
         >
-          <FormTextInput label="Category name" isRequired name="name" />
-          <SubmitButton className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 disabled:bg-gray-500">
-            Submit
-          </SubmitButton>
-        </GenericForm>
+          {(props) => (
+            <form onSubmit={props.handleSubmit}>
+              <FormTextInput label="Име на категория" name="name" required />
+              <SubmitButton
+                disabled={!props.isValid}
+                className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 disabled:bg-gray-500"
+              >
+                Submit
+              </SubmitButton>
+            </form>
+          )}
+        </Formik>
       </div>
     </div>
   );

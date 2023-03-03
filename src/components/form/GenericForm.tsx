@@ -1,27 +1,9 @@
-import { ComponentProps } from "react";
-import {
-  FieldValues,
-  FormProvider,
-  SubmitHandler,
-  UseFormReturn,
-} from "react-hook-form";
+import { Formik, FormikErrors, FormikProps } from "formik"
+import { useRef, useState } from "react"
 
-type FormProps<T extends FieldValues> = {
-  form: UseFormReturn<T>;
-  onSubmit: SubmitHandler<T>;
-} & Omit<ComponentProps<"form">, "onSubmit">;
 
-const GenericForm = <T extends FieldValues>({
-  form,
-  onSubmit,
-  children,
-  ...props
-}: FormProps<T>) => (
-  <FormProvider {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} {...props}>
-      <fieldset disabled={form.formState.isSubmitting}>{children}</fieldset>
-    </form>
-  </FormProvider>
-);
+const GenericForm = <T extends FormikValues>() => {
 
-export default GenericForm;
+	return (
+  )
+}
