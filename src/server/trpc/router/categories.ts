@@ -3,15 +3,9 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { categorySchema } from "../../../schemas/category.schema";
 
-import { type Prisma } from "@prisma/client";
-
 export const categoryRouter = router({
   getAll: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.category.findMany({
-      include: {
-        parent: true,
-      },
-    });
+    return ctx.prisma.category.findMany();
   }),
   getCategory: publicProcedure
     .input(z.object({ categoryId: z.string() }))
@@ -37,24 +31,11 @@ export const categoryRouter = router({
     }),
   createCategory: publicProcedure
     .input(categorySchema)
-    .mutation(async ({ input, ctx }) => {
-      let categoryInput: Prisma.CategoryCreateInput = { ...input };
-
-      if (input.parentId) {
-        categoryInput = {
-          name: input.name,
-          parent: {
-            connect: {
-              id: input.parentId,
-            },
-          },
-        };
-      }
-
-      return await ctx.prisma.category.create({
-        data: categoryInput,
-      });
-    }),
+    .mutation(async ({ input, ctx }) =>
+      ctx.prisma.category.create({
+        data: input,
+      })
+    ),
 
   /* updateCategory: publicProcedure
 		.input(categorySchema)

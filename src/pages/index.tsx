@@ -1,11 +1,12 @@
-import { Category } from "@prisma/client";
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 
-import { FormProvider, useForm } from "react-hook-form";
-import FormCombobox from "../components/form-components/Combobox";
-import FormTextInput from "../components/form-components/TextInput";
 import { trpc } from "../utils/trpc";
+import { categorySchema } from "../schemas/category.schema";
+import { useZodForm } from "../utils/useZodFormProps";
+import Input from "../components/Input";
+import GenericForm from "../components/GenericForm";
+import SubmitButton from "../components/SubmitButton";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -26,18 +27,13 @@ const Home: NextPage = () => {
     }
   };
 
-  const methods = useForm();
-  const mutation = trpc.category.createCategory.useMutation();
-  const onSubmit = async (data: any) => {
-    mutation.mutate(data);
-    methods.reset();
-  };
+  const form = useZodForm({
+    schema: categorySchema,
+  });
 
-  const { data: categoriesData } = trpc.category.getAll.useQuery();
+  // const mutation = trpc.category.createCategory.useMutation();
 
-  const handleParentChange = ({ id }: Category) => {
-    methods.setValue("parentId", id);
-  };
+  // const { data: categoriesData } = trpc.category.getAll.useQuery();
 
   return (
     <div className="h-screen bg-gray-700">
@@ -57,32 +53,20 @@ const Home: NextPage = () => {
       </div>
       <div className="flex flex-col items-center justify-center p-12">
         <h3 className="my-4 text-center text-white">Create new category</h3>
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <div className="my-4">
-              <FormTextInput
-                placeholder="Category name"
-                name="name"
-                type="text"
-              />
-            </div>
-            <div className="my-4">
-              <FormCombobox<Category>
-                name="parentId"
-                label="Parent category"
-                options={categoriesData || []}
-                onChange={handleParentChange}
-              />
-            </div>
-            <button
-              className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-              type="submit"
-              disabled={mutation.isLoading}
-            >
-              Submit
-            </button>
-          </form>
-        </FormProvider>
+        <GenericForm
+          form={form}
+          onSubmit={(data) => {
+            console.log(data);
+          }}
+        >
+          <Input
+            type="text"
+            label="Category name:"
+            required
+            {...form.register("name")}
+          />
+          <SubmitButton>Submit</SubmitButton>
+        </GenericForm>
       </div>
     </div>
   );
