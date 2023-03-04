@@ -18,7 +18,7 @@ model Product {
   id         String    @id @default(cuid())
   name       String    @db.Text
   categoryId String
-  category   Category? @relation(fields: [categoryId], references: [id])
+  category   Category  @relation(fields: [categoryId], references: [id])
   quantity   Int?
   price      Int?
   priceRA    Int?

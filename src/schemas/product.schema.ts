@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { categorySchema } from "./category.schema";
 
+const requiredText = "Това поле е задължително";
+
 const supplierSchema = z.object({
   id: z.string().optional(),
   name: z.string(),
@@ -8,14 +10,16 @@ const supplierSchema = z.object({
 });
 
 export const productSchema = z.object({
-  name: z.string(),
+  id: z.string().optional(),
+  name: z.string({
+    required_error: requiredText,
+  }),
   category: categorySchema,
-  quantity: z.number(),
-  price: z.number(),
-  priceRA: z.number(),
-  priceKK: z.number(),
-  supplier: supplierSchema,
-  orderLink: z.string().optional(),
+  quantity: z.number().nullable(),
+  // price: z.number(),
+  priceRA: z.number().nullable(),
+  priceKK: z.number().nullable(),
+  orderLink: z.string().nullable().optional(),
 });
 
 export type ProductSchemaType = z.infer<typeof productSchema>;
@@ -23,14 +27,11 @@ export type ProductSchemaType = z.infer<typeof productSchema>;
 export const INIT_PRODUCT: ProductSchemaType = {
   name: "",
   quantity: 0,
-  price: 0,
+  // price: 0,
   priceRA: 0,
   priceKK: 0,
   orderLink: "",
   category: {
-    name: "",
-  },
-  supplier: {
     name: "",
   },
 };

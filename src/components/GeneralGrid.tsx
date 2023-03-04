@@ -2,12 +2,14 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  Row,
   useReactTable,
 } from "@tanstack/react-table";
 
 type GeneralGridProps<T> = {
   data: T[];
   columns: ColumnDef<T>[];
+  onRowClick?: (data: Row<T>) => void;
 };
 
 /**
@@ -21,7 +23,11 @@ type GeneralGridProps<T> = {
  *
  *
  */
-const GeneralGrid = <T,>({ data, columns }: GeneralGridProps<T>) => {
+const GeneralGrid = <T,>({
+  data,
+  columns,
+  onRowClick,
+}: GeneralGridProps<T>) => {
   const table = useReactTable<T>({
     data: data,
     columns,
@@ -66,7 +72,7 @@ const GeneralGrid = <T,>({ data, columns }: GeneralGridProps<T>) => {
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <tr key={row.id} onClick={() => onRowClick && onRowClick(row)}>
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}

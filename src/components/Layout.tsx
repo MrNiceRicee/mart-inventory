@@ -40,6 +40,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <nav>
           {routes.map((route) => (
             <Link
+              key={route.label}
               className="block rounded py-2.5 px-4 transition duration-200 hover:bg-blue-700 hover:text-white"
               href={route.route}
             >
