@@ -1,9 +1,27 @@
 import { productSchema } from "../../../schemas/product.schema";
 import { publicProcedure, router } from "../trpc";
+import { z } from "zod";
 
 export const productRouter = router({
   getAll: publicProcedure.query(async ({ ctx }) =>
-    ctx.prisma.product.findMany()
+    ctx.prisma.product.findMany({
+      include: {
+        category: true,
+        supplier: true,
+      },
+    })
+  ),
+
+  getProduct: publicProcedure.input(z.string()).query(async ({ input, ctx }) =>
+    ctx.prisma.product.findFirstOrThrow({
+      where: {
+        id: input,
+      },
+      include: {
+        category: true,
+        supplier: true,
+      },
+    })
   ),
 
   createProduct: publicProcedure
@@ -12,6 +30,11 @@ export const productRouter = router({
       ctx.prisma.product.create({
         data: {
           ...input,
+          user: {
+            connect: {
+              id: ctx.session?.user?.id,
+            },
+          },
           category: {
             connectOrCreate: {
               create: {
@@ -22,13 +45,26 @@ export const productRouter = router({
               },
             },
           },
-          supplier: {
+        },
+      })
+    ),
+
+  updateProduct: publicProcedure
+    .input(productSchema)
+    .mutation(({ input, ctx }) =>
+      ctx.prisma.product.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          ...input,
+          category: {
             connectOrCreate: {
               create: {
-                name: input.supplier.name,
+                name: input.category.name,
               },
               where: {
-                name: input.supplier.name,
+                name: input.category.name,
               },
             },
           },
