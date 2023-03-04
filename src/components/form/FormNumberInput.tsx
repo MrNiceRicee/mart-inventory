@@ -1,13 +1,7 @@
 import { useFormikContext } from "formik";
-import { ComponentProps } from "react";
+import { FormInputProps } from "./FormTextInput";
 
-export type FormInputProps = {
-  name: string;
-  label: string;
-  isRequired?: boolean;
-} & ComponentProps<"input">;
-
-const FormTextInput = ({ name, label, ...props }: FormInputProps) => {
+const FormNumberInput = ({ name, label, ...props }: FormInputProps) => {
   const { getFieldProps, getFieldMeta } = useFormikContext();
   const showError = getFieldMeta(name).touched && getFieldMeta(name).error;
   return (
@@ -16,10 +10,10 @@ const FormTextInput = ({ name, label, ...props }: FormInputProps) => {
         {label}
       </label>
       <input
-        className={`relative w-full rounded py-2 pr-2 pl-2 text-sm text-black placeholder-gray-400 focus:border-indigo-400 focus:outline-none sm:text-base ${
+        className={`relative w-full rounded py-2  pr-2 pl-2 text-sm text-black placeholder-gray-400 focus:border-indigo-400 focus:outline-none sm:text-base ${
           showError && "border border-red-500"
         }`}
-        type="text"
+        type="number"
         {...props}
         {...getFieldProps(name)}
         required={props.isRequired}
@@ -33,4 +27,4 @@ const FormTextInput = ({ name, label, ...props }: FormInputProps) => {
   );
 };
 
-export default FormTextInput;
+export default FormNumberInput;

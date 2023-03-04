@@ -4,9 +4,10 @@ import { TRPCError } from "@trpc/server";
 import { categorySchema } from "../../../schemas/category.schema";
 
 export const categoryRouter = router({
-  getAll: protectedProcedure.query(({ ctx }) => {
+  getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.category.findMany();
   }),
+
   getCategory: publicProcedure
     .input(z.object({ categoryId: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -36,29 +37,4 @@ export const categoryRouter = router({
         data: input,
       })
     ),
-
-  /* updateCategory: publicProcedure
-		.input(categorySchema)
-		.mutation(async ({ input, ctx }) => {
-			//When updating the category, the process is:
-			//1. Find category. If no category is found - throw an error
-			//2.
-			const category = await ctx.prisma.category.findFirstOrThrow({
-				where: { id: input.id },
-			});
-
-			if (!category) {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-					message: "No category with that id was found",
-				});
-			}
-
-			return await ctx.prisma.category.update({
-				where: {
-					id: input.id,
-				},
-				data: input,
-			});
-		}), */
 });
