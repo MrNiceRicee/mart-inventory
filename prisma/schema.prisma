@@ -20,10 +20,11 @@ model Product {
   categoryId String
   category   Category? @relation(fields: [categoryId], references: [id])
   quantity   Int?
+  price      Int?
   priceRA    Int?
   priceKK    Int?
   supplier   Supplier?
-  orderLink  String    @db.Text
+  orderLink  String?   @db.Text
   userId     String
   user       User?     @relation(fields: [userId], references: [id])
 }
@@ -41,7 +42,7 @@ model Category {
 
 model Supplier {
   id        String   @id @default(cuid())
-  name      String
+  name      String   @unique @db.Text
   active    Boolean? @default(true)
   productId String   @unique()
   product   Product  @relation(fields: [productId], references: [id])
