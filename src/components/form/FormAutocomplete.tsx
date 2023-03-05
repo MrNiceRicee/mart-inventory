@@ -36,7 +36,7 @@ const FormAutocomplete = <T extends { id: string; name: string }>({
         <Combobox.Input
           className="w-full rounded py-2 pr-2 pl-2 text-sm text-black placeholder-gray-400 focus:border-indigo-400 focus:outline-none sm:text-base"
           onChange={({ target }) => setQuery(target.value)}
-          displayValue={(item: T) => item.name}
+          displayValue={(item: T) => item && item.name}
         />
         <Combobox.Button className="inset-y-0 right-0 flex items-center pr-2">
           <svg

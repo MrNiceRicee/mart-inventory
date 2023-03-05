@@ -16,9 +16,10 @@ export const productSchema = z.object({
   }),
   category: categorySchema,
   quantity: z.number().nullable(),
-  // price: z.number(),
+  price: z.number().nullable(),
   priceRA: z.number().nullable(),
   priceKK: z.number().nullable(),
+  supplier: supplierSchema.optional(),
   orderLink: z.string().nullable().optional(),
 });
 
@@ -27,11 +28,12 @@ export type ProductSchemaType = z.infer<typeof productSchema>;
 export const INIT_PRODUCT: ProductSchemaType = {
   name: "",
   quantity: 0,
-  // price: 0,
+  price: 0,
   priceRA: 0,
   priceKK: 0,
   orderLink: "",
   category: {
     name: "",
   },
+  supplier: undefined,
 };
