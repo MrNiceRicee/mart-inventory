@@ -20,6 +20,7 @@ const GenericForm = <T extends FormikValues>({
       initialValues={initialValues}
       validationSchema={toFormikValidationSchema(validationSchema)}
       onSubmit={onSubmit}
+      enableReinitialize={true}
     >
       {(props) => (
         <form onSubmit={props.handleSubmit}>

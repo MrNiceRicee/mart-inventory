@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import { useMemo, useState } from "react";
 import GeneralGrid from "../components/GeneralGrid";
 import Layout from "../components/Layout";
+import Loader from "../components/Loader";
 import AddProductForm from "../components/products/AddProduct";
 import EditProductForm from "../components/products/EditProduct";
 import { ProductSchemaType } from "../schemas/product.schema";
@@ -71,9 +72,10 @@ const Products: NextPage = () => {
     []
   );
 
-  const { data: productsData } = trpc.product.getAll.useQuery(undefined, {
-    refetchOnWindowFocus: false,
-  });
+  const { data: productsData, isLoading: productLoadingState } =
+    trpc.product.getAll.useQuery(undefined, {
+      refetchOnWindowFocus: false,
+    });
 
   const [openAddProduct, setOpenAddProduct] = useState(false);
 
@@ -87,6 +89,7 @@ const Products: NextPage = () => {
 
   return (
     <Layout>
+      {productLoadingState && <Loader />}
       <EditProductForm
         id={productId!}
         visibility={openEditProduct}
