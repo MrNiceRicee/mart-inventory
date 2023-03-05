@@ -54,11 +54,6 @@ const Products: NextPage = () => {
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: "price",
-        header: "Цена",
-        cell: (info) => info.getValue(),
-      },
-      {
         accessorKey: "priceRA",
         header: "Цена Рекламна Агенция",
         cell: (info) => info.getValue(),
