@@ -1,27 +1,40 @@
-import { ComponentProps } from "react";
-import {
-  FieldValues,
-  FormProvider,
-  SubmitHandler,
-  UseFormReturn,
-} from "react-hook-form";
+import { Formik, FormikHelpers, FormikValues } from "formik";
+import { PropsWithChildren } from "react";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+import SubmitButton from "./SubmitButton";
 
-type FormProps<T extends FieldValues> = {
-  form: UseFormReturn<T>;
-  onSubmit: SubmitHandler<T>;
-} & Omit<ComponentProps<"form">, "onSubmit">;
+type GenericFormProps<T> = {
+  initialValues: T;
+  validationSchema: any;
+  onSubmit: (_attrVals: T, _formikHelpers: FormikHelpers<T>) => Promise<void>;
+} & PropsWithChildren;
 
-const GenericForm = <T extends FieldValues>({
-  form,
+const GenericForm = <T extends FormikValues>({
+  initialValues,
+  validationSchema,
   onSubmit,
   children,
-  ...props
-}: FormProps<T>) => (
-  <FormProvider {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} {...props}>
-      <fieldset disabled={form.formState.isSubmitting}>{children}</fieldset>
-    </form>
-  </FormProvider>
-);
+}: GenericFormProps<T>) => {
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={toFormikValidationSchema(validationSchema)}
+      onSubmit={onSubmit}
+      enableReinitialize={true}
+    >
+      {(props) => (
+        <form onSubmit={props.handleSubmit}>
+          {children}
+          <SubmitButton
+            disabled={!props.isValid || props.isSubmitting}
+            className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 disabled:bg-gray-500"
+          >
+            Добави
+          </SubmitButton>
+        </form>
+      )}
+    </Formik>
+  );
+};
 
 export default GenericForm;
