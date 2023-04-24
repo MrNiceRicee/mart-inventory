@@ -1,28 +1,20 @@
 import { useFormikContext } from "formik";
 import type { FormInputProps } from "./FormTextInput";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-const FormNumberInput = ({ name, label, ...props }: FormInputProps) => {
+const FormNumberInput = ({ name, label, placeholder = "" }: FormInputProps) => {
   const { getFieldProps, getFieldMeta } = useFormikContext();
   const showError = getFieldMeta(name).touched && getFieldMeta(name).error;
   return (
     <div className="my-4">
-      <label className="mr-3" htmlFor="name">
-        {label}
-      </label>
-      <input
-        className={`relative w-full rounded py-2  pr-2 pl-2 text-sm text-black placeholder-gray-400 focus:border-indigo-400 focus:outline-none sm:text-base ${
-          showError && "border border-red-500"
-        }`}
-        type="number"
-        {...props}
+      <Label htmlFor="email">{label}</Label>
+      <Input
         {...getFieldProps(name)}
-        required={props.isRequired}
+        type="number"
+        placeholder={placeholder}
+        className={showError ? "border border-red-500" : ""}
       />
-      {showError && (
-        <p className="mt-1 ml-1 text-xs font-medium tracking-wide text-red-500">
-          {getFieldMeta(name).error}
-        </p>
-      )}
     </div>
   );
 };

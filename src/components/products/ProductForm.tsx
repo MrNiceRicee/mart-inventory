@@ -39,11 +39,16 @@ const ProductForm = ({ values, runQuery, productSubmit }: ProductFormProps) => {
         onSubmit={productSubmit}
         validationSchema={productSchema}
       >
-        <FormTextInput label="Име на продукт" name="name" required />
+        <FormTextInput
+          label="Име на продукт"
+          name="name"
+          placeholder="Име на продукт"
+        />
         <FormAutocomplete
           label="Категория"
           name="category"
           data={categoriesData || []}
+          placeholder="Изберете категория"
         />
         <FormNumberInput label="Количество" name="quantity" />
         <FormNumberInput label="Цена" name="price" />
@@ -53,6 +58,7 @@ const ProductForm = ({ values, runQuery, productSubmit }: ProductFormProps) => {
           data={suppliersData || []}
           label="Доставчик"
           name="supplier"
+          placeholder="Изберете доставчик"
         />
         <FormTextInput label="Линк за поръчване" name="orderLink" />
       </GenericForm>
