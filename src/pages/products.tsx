@@ -6,11 +6,12 @@ import Layout from "../components/Layout";
 import Loader from "../components/Loader";
 import AddProductForm from "../components/products/AddProduct";
 import EditProductForm from "../components/products/EditProduct";
-import { ProductSchemaType } from "../schemas/product.schema";
-import { trpc } from "../utils/trpc";
+import { type RouterOutputs, trpc } from "../utils/trpc";
+
+type ProductGridReturnType = RouterOutputs["product"]["getAll"][number];
 
 const Products: NextPage = () => {
-  const columns = useMemo<ColumnDef<ProductSchemaType>[]>(
+  const columns = useMemo<ColumnDef<ProductGridReturnType>[]>(
     () => [
       {
         id: "select",
@@ -77,7 +78,7 @@ const Products: NextPage = () => {
   const [openEditProduct, setOpenEditProduct] = useState(false);
   const [productId, setProductId] = useState<string | undefined>();
 
-  const handleProductEdit = ({ original }: Row<ProductSchemaType>) => {
+  const handleProductEdit = ({ original }: Row<ProductGridReturnType>) => {
     setProductId(original.id);
     setOpenEditProduct(true);
   };
