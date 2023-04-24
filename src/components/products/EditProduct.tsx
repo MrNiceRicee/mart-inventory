@@ -33,7 +33,8 @@ const EditProductForm = ({
     }
   };
 
-  if (!productData) return <div>Something went wrong...</div>;
+  console.log("element is in dom");
+  if (!productData) return null;
 
   return (
     <GenericModal visibility={visibility} close={close}>

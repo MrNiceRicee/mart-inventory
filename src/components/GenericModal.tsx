@@ -13,7 +13,7 @@ const GenericModal = ({ visibility, close, title, children }: ModalProps) => {
       open={visibility}
       onClose={close}
       as="div"
-      className={`fixed inset-0 z-10 flex items-center justify-center overflow-y-auto`}
+      className={` fixed inset-0 z-10 flex items-center justify-center overflow-y-auto`}
     >
       <div className="flex w-96 flex-col bg-gray-800 py-8 px-4 text-center text-white">
         <Dialog.Overlay />
