@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { NextPage } from "next";
 import { useMemo, useState } from "react";
@@ -95,9 +96,9 @@ const Products: NextPage = () => {
         visibility={openAddProduct}
         close={() => setOpenAddProduct(false)}
       />
-      <button type="button" onClick={() => setOpenAddProduct(true)}>
+      <Button variant="outline" onClick={() => setOpenAddProduct(true)}>
         Добави продукт
-      </button>
+      </Button>
       <GeneralGrid
         data={productsData || []}
         columns={columns}

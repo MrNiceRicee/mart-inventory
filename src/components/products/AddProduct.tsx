@@ -32,7 +32,7 @@ const AddProductForm = ({
   };
 
   return (
-    <GenericModal visibility={visibility} close={close}>
+    <GenericModal title="Добави продукт" visibility={visibility} close={close}>
       <ProductForm
         values={INIT_PRODUCT}
         runQuery={visibility}
