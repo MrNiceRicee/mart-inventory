@@ -1,5 +1,5 @@
 import { useFormikContext } from "formik";
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 
 export type FormInputProps = {
   name: string;

@@ -1,6 +1,6 @@
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 
-type ButtonProps = {} & Omit<ComponentProps<"button">, "type">;
+type ButtonProps = Omit<ComponentProps<"button">, "type">;
 
 const SubmitButton = (props: ButtonProps) => (
   <button {...props} type="submit" />

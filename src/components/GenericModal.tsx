@@ -1,5 +1,5 @@
 import { Dialog } from "@headlessui/react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 type ModalProps = {
   visibility: boolean;

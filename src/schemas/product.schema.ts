@@ -19,7 +19,7 @@ export const productSchema = z.object({
   price: z.number().nullable(),
   priceRA: z.number().nullable(),
   priceKK: z.number().nullable(),
-  supplier: supplierSchema.optional(),
+  supplier: supplierSchema.optional().nullable(),
   orderLink: z.string().nullable().optional(),
 });
 

@@ -1,5 +1,5 @@
 import { useFormikContext } from "formik";
-import { FormInputProps } from "./FormTextInput";
+import type { FormInputProps } from "./FormTextInput";
 
 const FormNumberInput = ({ name, label, ...props }: FormInputProps) => {
   const { getFieldProps, getFieldMeta } = useFormikContext();

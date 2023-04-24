@@ -1,11 +1,12 @@
-import { Formik, FormikHelpers, FormikValues } from "formik";
-import { PropsWithChildren } from "react";
+import { Formik, type FormikHelpers, type FormikValues } from "formik";
+import type { PropsWithChildren } from "react";
+import type { ZodSchema } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import SubmitButton from "./SubmitButton";
 
 type GenericFormProps<T> = {
   initialValues: T;
-  validationSchema: any;
+  validationSchema: ZodSchema;
   onSubmit: (_attrVals: T, _formikHelpers: FormikHelpers<T>) => Promise<void>;
 } & PropsWithChildren;
 

@@ -1,5 +1,8 @@
-import { FormikHelpers } from "formik";
-import { INIT_PRODUCT, ProductSchemaType } from "../../schemas/product.schema";
+import type { FormikHelpers } from "formik";
+import {
+  INIT_PRODUCT,
+  type ProductSchemaType,
+} from "../../schemas/product.schema";
 import { trpc } from "../../utils/trpc";
 import GenericModal from "../GenericModal";
 import ProductForm from "./ProductForm";

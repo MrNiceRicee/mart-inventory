@@ -1,4 +1,4 @@
-import { ProductSchemaType } from "../../schemas/product.schema";
+import type { ProductSchemaType } from "../../schemas/product.schema";
 import { trpc } from "../../utils/trpc";
 import GenericModal from "../GenericModal";
 import Loader from "../Loader";
@@ -32,6 +32,8 @@ const EditProductForm = ({
       console.log("err", err);
     }
   };
+
+  if (!productData) return <div>Something went wrong...</div>;
 
   return (
     <GenericModal visibility={visibility} close={close}>

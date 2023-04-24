@@ -1,5 +1,8 @@
-import { FormikHelpers } from "formik";
-import { productSchema, ProductSchemaType } from "../../schemas/product.schema";
+import type { FormikHelpers } from "formik";
+import {
+  productSchema,
+  type ProductSchemaType,
+} from "../../schemas/product.schema";
 import { trpc } from "../../utils/trpc";
 import FormAutocomplete from "../form/FormAutocomplete";
 import FormNumberInput from "../form/FormNumberInput";
