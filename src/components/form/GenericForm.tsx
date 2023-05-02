@@ -2,7 +2,7 @@ import { Formik, type FormikHelpers, type FormikValues } from "formik";
 import type { PropsWithChildren } from "react";
 import type { ZodSchema } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import SubmitButton from "./SubmitButton";
+import { Button } from "../ui/button";
 
 type GenericFormProps<T> = {
   initialValues: T;
@@ -26,12 +26,12 @@ const GenericForm = <T extends FormikValues>({
       {(props) => (
         <form onSubmit={props.handleSubmit}>
           {children}
-          <SubmitButton
+          <Button
             disabled={!props.isValid || props.isSubmitting}
-            className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 disabled:bg-gray-500"
+            className="mt-4"
           >
             Добави
-          </SubmitButton>
+          </Button>
         </form>
       )}
     </Formik>

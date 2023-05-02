@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -11,8 +9,8 @@ import type { ReactNode } from "react";
 type ModalProps = {
   visibility: boolean;
   close: () => void;
-  title?: string;
   children: ReactNode;
+  title?: string;
 };
 
 const GenericModal = ({ children, title, visibility, close }: ModalProps) => {
@@ -23,12 +21,6 @@ const GenericModal = ({ children, title, visibility, close }: ModalProps) => {
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         {children}
-        <DialogFooter>
-          <Button type="submit">Създай</Button>
-          <Button type="submit" onClick={close}>
-            Затвори
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
